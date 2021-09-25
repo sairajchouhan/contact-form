@@ -25,9 +25,21 @@ export default function Home() {
     }
     setErrors({})
     setLoading(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+      if (res.ok) {
+        setValues({ name: '', email: '', message: '' })
+      }
+    } catch (err) {
+      console.log(err)
+    }
     setLoading(false)
-    console.log(values)
   }
 
   const handleChange = (
