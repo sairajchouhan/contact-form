@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Input from '../components/Input'
 import TextArea from '../components/TextArea'
 import { validate } from '../utils/validate'
+import Image from 'next/image'
 
 interface IValues {
   name: string
@@ -14,14 +15,18 @@ interface IErrors extends Partial<IValues> {}
 export default function Home() {
   const [values, setValues] = useState<IValues>({ name: '', email: '', message: '' })
   const [errors, setErrors] = useState<IErrors>({})
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errors = validate(values)
     if (errors && Object.keys(errors).length > 0) {
       return setErrors(errors)
     }
     setErrors({})
+    setLoading(true)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setLoading(false)
     console.log(values)
   }
 
@@ -69,10 +74,17 @@ export default function Home() {
             errorMessage={!!errors.message ? errors.message : ''}
           />
           <button
-            className="w-full py-2 mt-3 text-lg text-white bg-purple-500 rounded-md outline-none active:bg-purple-600 focus:ring-2 focus:ring-purple-400"
+            className="w-full py-2 mt-6 text-lg text-white bg-purple-500 rounded-md outline-none active:bg-purple-600 focus:ring-2 focus:ring-purple-400 disabled:bg-opacity-60 disabled:cursor-not-allowed"
             type="submit"
+            disabled={loading}
           >
-            Submit
+            {!loading ? (
+              'Submit'
+            ) : (
+              <div className="flex items-center justify-center w-full h-full ">
+                <Image src="/loader.svg" className="animate-spin" width="30" height="30" />
+              </div>
+            )}
           </button>
         </form>
       </div>
