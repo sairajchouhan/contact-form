@@ -3,9 +3,19 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
   placeholder: string
+  error?: boolean
+  errorMessage?: string
 }
 
-const Input = ({ id, name, label, placeholder, ...props }: InputProps) => {
+const Input = ({
+  id,
+  name,
+  label,
+  placeholder,
+  error = false,
+  errorMessage = '',
+  ...props
+}: InputProps) => {
   return (
     <div className="w-full mb-3">
       <label className="block text-lg" htmlFor={id}>
@@ -20,6 +30,7 @@ const Input = ({ id, name, label, placeholder, ...props }: InputProps) => {
         id={id}
         placeholder={placeholder}
       />
+      {error && <p className="mt-1 text-xs italic text-red-500">*{errorMessage}</p>}
     </div>
   )
 }

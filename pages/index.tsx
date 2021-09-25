@@ -1,17 +1,34 @@
 import { useState } from 'react'
 import Input from '../components/Input'
 import TextArea from '../components/TextArea'
+import { validate } from '../utils/validate'
+
+interface IValues {
+  name: string
+  email: string
+  message: string
+}
+
+interface IErrors extends Partial<IValues> {}
+
 export default function Home() {
-  const [input, setInput] = useState({ name: '', email: '', message: '' })
+  const [values, setValues] = useState<IValues>({ name: '', email: '', message: '' })
+  const [errors, setErrors] = useState<IErrors>({})
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(input)
+    const errors = validate(values)
+    if (errors && Object.keys(errors).length > 0) {
+      return setErrors(errors)
+    }
+    setErrors({})
+    console.log(values)
   }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setInput((prevInput) => ({ ...prevInput, [e.target.name]: e.target.value }))
+    setValues((prevInput) => ({ ...prevInput, [e.target.name]: e.target.value }))
   }
 
   return (
@@ -22,28 +39,34 @@ export default function Home() {
           onSubmit={handleSubmit}
         >
           <Input
-            value={input.name}
+            value={values.name}
             onChange={handleChange}
             id="name"
             name="name"
             label="Name"
             placeholder="Your Name"
+            error={!!errors.name}
+            errorMessage={!!errors.name ? errors.name : ''}
           />
           <Input
-            value={input.email}
+            value={values.email}
             onChange={handleChange}
             id="email"
             name="email"
             label="Email"
             placeholder="jhondoe@gmail.com"
+            error={!!errors.email}
+            errorMessage={!!errors.email ? errors.email : ''}
           />
           <TextArea
-            value={input.message}
+            value={values.message}
             onChange={handleChange}
             id="message"
             name="message"
             label="Message"
             placeholder="Your message"
+            error={!!errors.message}
+            errorMessage={!!errors.message ? errors.message : ''}
           />
           <button
             className="w-full py-2 mt-3 text-lg text-white bg-purple-500 rounded-md outline-none active:bg-purple-600 focus:ring-2 focus:ring-purple-400"

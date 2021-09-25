@@ -4,9 +4,19 @@ interface TextAreaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   label: string
   placeholder: string
   type?: string
+  error?: boolean
+  errorMessage?: string
 }
 
-const TextArea = ({ id, name, label, placeholder, ...props }: TextAreaProps) => {
+const TextArea = ({
+  id,
+  name,
+  label,
+  placeholder,
+  error,
+  errorMessage,
+  ...props
+}: TextAreaProps) => {
   return (
     <div className="w-full">
       <label className="block text-lg" htmlFor={id}>
@@ -21,6 +31,7 @@ const TextArea = ({ id, name, label, placeholder, ...props }: TextAreaProps) => 
         style={{ resize: 'none' }}
         placeholder={placeholder}
       ></textarea>
+      {error && <p className="text-xs italic text-red-500">*{errorMessage}</p>}
     </div>
   )
 }
