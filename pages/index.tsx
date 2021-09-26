@@ -50,7 +50,17 @@ export default function Home() {
 
   return (
     <div className="w-full h-screen bg-blue-50">
-      <div className="px-3 pt-20">
+      <div className="px-3">
+        <h1 className="py-10 text-4xl text-center">
+          Welcome, you can use this form to reach{' '}
+          <a
+            className="text-indigo-600 underline"
+            href="https://twitter.com/sairaj2119"
+            target="_blank"
+          >
+            me
+          </a>
+        </h1>
         <form
           className="flex flex-col items-center w-full mx-auto sm:w-1/2 md:w-1/2 xl:w-1/3"
           onSubmit={handleSubmit}
@@ -60,8 +70,8 @@ export default function Home() {
             onChange={handleChange}
             id="name"
             name="name"
-            label="Name"
-            placeholder="Your Name"
+            label="Your Name"
+            placeholder="JhonDoe"
             error={!!errors.name}
             errorMessage={!!errors.name ? errors.name : ''}
           />
@@ -70,7 +80,7 @@ export default function Home() {
             onChange={handleChange}
             id="email"
             name="email"
-            label="Email"
+            label="Your Email"
             placeholder="jhondoe@gmail.com"
             error={!!errors.email}
             errorMessage={!!errors.email ? errors.email : ''}
@@ -80,8 +90,8 @@ export default function Home() {
             onChange={handleChange}
             id="message"
             name="message"
-            label="Message"
-            placeholder="Your message"
+            label="Your message to me"
+            placeholder="Hi There!"
             error={!!errors.message}
             errorMessage={!!errors.message ? errors.message : ''}
           />
